@@ -1,0 +1,41 @@
+{
+    "info": {
+        "name": "MoneyBeing Lead API",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Submit Lead",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Accept",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"full_name\": \"John Doe\",\n    \"mobile\": \"9876543210\",\n    \"email\": \"john@example.com\",\n    \"dob\": \"1990-01-01\",\n    \"city\": \"Mumbai\",\n    \"pincode\": \"400001\",\n    \"loan_type\": \"Home Loan\",\n    \"employment_type\": \"Salaried\",\n    \"monthly_income\": 50000,\n    \"loan_amount\": 2000000,\n    \"property_value\": 3000000,\n    \"consent\": true\n}"
+                },
+                "url": {
+                    "raw": "http://localhost:8000/api/leads",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8000",
+                    "path": [
+                        "api",
+                        "leads"
+                    ]
+                }
+            },
+            "response": []
+        }
+    ]
+}
