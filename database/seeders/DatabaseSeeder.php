@@ -9,6 +9,13 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        // Seed Admin User
+        \App\Models\User::firstOrCreate(
+            ['email' => 'admin@moneybeing.com'],
+            ['name' => 'Admin User', 'password' => \Illuminate\Support\Facades\Hash::make('password')]
+        );
+
+        // Seed Business Rules
         BusinessRule::insert([
             ['rule_field' => 'Age', 'operator' => '>=', 'value' => '21'],
             ['rule_field' => 'Age', 'operator' => '<=', 'value' => '60'],

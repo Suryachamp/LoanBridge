@@ -23,9 +23,21 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/">Apply Loan</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin">Admin Panel</a>
-                    </li>
+                    @auth
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                                @csrf
+                                <button type="submit" class="btn btn-link nav-link text-white text-decoration-none">Logout</button>
+                            </form>
+                        </li>
+                    @else
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin">Admin Panel</a>
+                        </li>
+                    @endauth
                 </ul>
             </div>
         </div>
