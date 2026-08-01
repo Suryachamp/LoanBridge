@@ -65,9 +65,24 @@ class LeadApiController extends Controller
     private function fetchCreditScore($mobile)
     {
         try {
-            // Mocking API call to CIBIL or equivalent
-            // Randomly return a score between 600 and 850
-            return rand(600, 850);
+            // Call the Credit Score API (Mock CIBIL endpoint)
+            // In production, replace this URL with the actual third-party API
+            $response = Http::timeout(10)->post(
+                url('/api/credit-score/check'),
+                ['mobile' => $mobile]
+            );
+
+            if ($response->successful()) {
+                $data = $response->json();
+                return $data['data']['credit_score'] ?? null;
+            }
+
+            Log::warning('Credit Score API returned non-success status', [
+                'mobile' => $mobile,
+                'status' => $response->status(),
+            ]);
+            return null;
+
         } catch (\Exception $e) {
             Log::error('Credit Score API failed: ' . $e->getMessage());
             return null;

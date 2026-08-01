@@ -62,12 +62,8 @@
                     @csrf
                     <div class="mb-3">
                         <label>Rule Field</label>
-                        <select name="rule_field" class="form-select" required>
-                            <option value="Age">Age</option>
-                            <option value="Monthly Income">Monthly Income</option>
-                            <option value="Credit Score">Credit Score</option>
-                            <option value="Loan Amount">Loan Amount</option>
-                        </select>
+                        <input type="text" name="rule_field" class="form-control" required placeholder="e.g. Age, Monthly Income, Credit Score, Loan Amount">
+                        <small class="text-muted">Type any field name you want to create a rule for</small>
                     </div>
                     <div class="mb-3">
                         <label>Operator</label>
