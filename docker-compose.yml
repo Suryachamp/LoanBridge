@@ -2,10 +2,10 @@ version: '3.8'
 services:
   db:
     image: mysql:8.0
-    container_name: moneybeing_db
+    container_name: loanbridge_db
     restart: always
     environment:
-      MYSQL_DATABASE: 'moneybeing'
+      MYSQL_DATABASE: 'loanbridge'
       MYSQL_USER: 'laravel'
       MYSQL_PASSWORD: 'password'
       MYSQL_ROOT_PASSWORD: 'root'

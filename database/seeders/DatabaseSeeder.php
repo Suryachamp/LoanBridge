@@ -11,7 +11,7 @@ class DatabaseSeeder extends Seeder
     {
         // Seed Admin User
         \App\Models\User::firstOrCreate(
-            ['email' => 'admin@moneybeing.com'],
+            ['email' => 'admin@loanbridge.com'],
             ['name' => 'Admin User', 'password' => \Illuminate\Support\Facades\Hash::make('password')]
         );
 

@@ -1,4 +1,4 @@
-# MoneyBeing Loan Eligibility & Lead Management
+# LoanBridge Loan Eligibility & Lead Management
 
 This project is a Laravel 11 application for processing loan applications, calculating credit scores, and evaluating business rules to determine eligibility.
 
@@ -20,7 +20,7 @@ This project is a Laravel 11 application for processing loan applications, calcu
     DB_CONNECTION=mysql
     DB_HOST=127.0.0.1
     DB_PORT=3307
-    DB_DATABASE=moneybeing
+    DB_DATABASE=loanbridge
     DB_USERNAME=laravel
     DB_PASSWORD=password
     ```
@@ -52,7 +52,7 @@ This project is a Laravel 11 application for processing loan applications, calcu
 
 - **Docker Setup**: `docker-compose.yml` included for MySQL.
 - **SQL Database Dump**: `database_dump.sql` provided.
-- **Postman Collection**: `MoneyBeing_Postman_Collection.json` provided.
+- **Postman Collection**: `LoanBridge_Postman_Collection.json` provided.
 
 ### Assessment Notes
 
