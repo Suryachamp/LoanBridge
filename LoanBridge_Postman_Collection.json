@@ -20,7 +20,7 @@
                 ],
                 "body": {
                     "mode": "raw",
-                    "raw": "{\n    \"full_name\": \"John Doe\",\n    \"mobile\": \"5123497504\",\n    \"email\": \"john@example.com\",\n    \"dob\": \"1990-01-01\",\n    \"city\": \"Mumbai\",\n    \"pincode\": \"400001\",\n    \"loan_type\": \"Home Loan\",\n    \"employment_type\": \"Salaried\",\n    \"monthly_income\": 50000,\n    \"loan_amount\": 2000000,\n    \"property_value\": 3000000,\n    \"consent\": true\n}"
+                    "raw": "{\n    \"full_name\": \"John Doe\",\n    \"mobile\": \"2531469870\",\n    \"email\": \"john@example.com\",\n    \"dob\": \"1990-01-01\",\n    \"city\": \"Mumbai\",\n    \"pincode\": \"400001\",\n    \"loan_type\": \"Home Loan\",\n    \"employment_type\": \"Salaried\",\n    \"monthly_income\": 50000,\n    \"loan_amount\": 2000000,\n    \"property_value\": 3000000,\n    \"consent\": true\n}"
                 },
                 "url": {
                     "raw": "http://localhost:8000/api/leads",

@@ -105,18 +105,21 @@ class LeadApiController extends Controller
             $ruleValue = $rule->value;
             $customerValue = null;
 
-            if ($field === 'Age') {
-                $customerValue = $customerAge;
-            } elseif ($field === 'Monthly Income') {
-                $customerValue = $data['monthly_income'];
-            } elseif ($field === 'Credit Score') {
-                $customerValue = $creditScore;
-            } elseif ($field === 'Loan Amount') {
-                $customerValue = $data['loan_amount'];
-                if (stripos($ruleValue, '% Property Value') !== false) {
-                    $percentage = (float) str_ireplace('% Property Value', '', $ruleValue);
-                    $ruleValue = ($percentage / 100) * $data['property_value'];
-                }
+            // Dynamic field mapping — maps admin rule fields to actual customer data
+            $fieldMap = [
+                'Age'             => $customerAge,
+                'Monthly Income'  => $data['monthly_income'] ?? null,
+                'Credit Score'    => $creditScore,
+                'Loan Amount'     => $data['loan_amount'] ?? null,
+                'Property Value'  => $data['property_value'] ?? null,
+                'Pincode'         => $data['pincode'] ?? null,
+            ];
+
+            $customerValue = $fieldMap[$field] ?? null;
+
+            if ($field === 'Loan Amount' && stripos($ruleValue, '% Property Value') !== false) {
+                $percentage = (float) str_ireplace('% Property Value', '', $ruleValue);
+                $ruleValue = ($percentage / 100) * $data['property_value'];
             }
 
             if ($customerValue !== null && !$this->evaluateCondition($customerValue, $operator, $ruleValue)) {
