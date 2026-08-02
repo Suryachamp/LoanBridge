@@ -29,17 +29,28 @@ The BRE is designed to be highly flexible and completely database-driven.
 
 ## Credit Score API Integration
 
-The application integrates with an external Credit Score API.
-- The logic is decoupled into a dedicated `CreditScoreController` which simulates the external provider.
-- In the `LeadApiController`, when a new lead is received, the backend uses Laravel's `Http` facade to make an authenticated POST request to the `/api/credit-score` endpoint, passing the user's PAN card number.
+The application integrates with a Credit Score API to enrich lead data before BRE evaluation.
+- **Why a Mock API?** There are no publicly available free or token-limited CIBIL/Experian credit score checker APIs. To demonstrate the integration architecture without incurring costs, a mock Credit Bureau API was built internally using a deterministic `crc32` hashing technique on the mobile number, ensuring the same mobile always returns the same consistent credit score (range: 300–900).
+- The logic is decoupled into a dedicated `CreditScoreController` (`app/Http/Controllers/Api/CreditScoreController.php`) which simulates the external provider.
+- In the `LeadApiController`, when a new lead is received, the backend uses Laravel's `Http` facade to make an HTTP POST request to the `/api/credit-score/check` endpoint, passing the user's mobile number.
 - The API processes the request and returns a JSON response with the credit score, which is then immediately utilized by the BRE.
+- In production, this mock endpoint can be seamlessly swapped with a real third-party API without any changes to the core application logic.
+
+## Docker Setup
+
+The MySQL database is containerized using Docker Compose for a clean, isolated development environment. The Laravel application itself runs natively via `php artisan serve` rather than inside a container—this is intentional, as containerizing the entire app would require rebuilding the Docker image on every code change, slowing down the development workflow significantly.
+
+To start the database container:
+```bash
+docker-compose up -d
+```
 
 ## Setup Instructions
 
 ### Prerequisites
 - PHP 8.2 or higher
 - Composer
-- MySQL 8.0+
+- Docker Desktop (for MySQL container) OR MySQL 8.0+ installed locally
 
 ### Installation & Local Setup
 
@@ -62,14 +73,14 @@ The application integrates with an external Credit Score API.
    ```
 
 4. **Database Configuration:**
-   Update your `.env` file with your local MySQL credentials:
+   Start the Docker MySQL container or configure your own MySQL instance. Update your `.env` file accordingly:
    ```env
    DB_CONNECTION=mysql
    DB_HOST=127.0.0.1
-   DB_PORT=3306
+   DB_PORT=3307
    DB_DATABASE=loanbridge
-   DB_USERNAME=root
-   DB_PASSWORD=
+   DB_USERNAME=laravel
+   DB_PASSWORD=password
    ```
 
 5. **Run Migrations & Seeders:**
@@ -85,6 +96,10 @@ The application integrates with an external Credit Score API.
    ```
    The application will be accessible at `http://localhost:8000`.
 
-## Testing
+## Bonus Features & Deliverables
 
-A comprehensive Postman Collection (`LoanBridge_Postman_Collection.json`) is included in the root directory for easy API testing and validation. Additionally, a MySQL database dump (`database_dump.sql`) is provided for rapid restoration of a pre-populated state.
+- **Postman Collection**: A comprehensive Postman Collection (`LoanBridge_Postman_Collection.json`) is included in the root directory for easy API testing and validation.
+- **Database Dump**: A MySQL database dump (`database_dump.sql`) is provided for rapid restoration of a pre-populated database state.
+- **Docker Compose**: The database is containerized via `docker-compose.yml` for one-command database provisioning.
+- **Database-Driven Seeder**: Default business rules and admin credentials are auto-provisioned via `database/seeders/DatabaseSeeder.php`.
+- **Duplicate Lead Prevention**: The API automatically rejects duplicate applications based on mobile number.
