@@ -61,7 +61,15 @@ class LeadApiController extends Controller
     {
         try {
             // Internal call to our Mock Credit Bureau API 
-            // In production, replace this URL with actual third-party API endpoint
+            // Note: 'php artisan serve' is single-threaded. Making an HTTP request to itself causes a 10-second deadlock.
+            // For local testing, we bypass the network layer. In production, we use Http::post().
+            if (app()->environment('local')) {
+                $controller = new \App\Http\Controllers\Api\CreditScoreController();
+                $req = \Illuminate\Http\Request::create('/api/credit-score/check', 'POST', ['mobile' => $mobile]);
+                $res = $controller->check($req);
+                return $res->getData(true)['data']['credit_score'] ?? null;
+            }
+
             $response = Http::timeout(10)->post(
                 url('/api/credit-score/check'),
                 ['mobile' => $mobile]
