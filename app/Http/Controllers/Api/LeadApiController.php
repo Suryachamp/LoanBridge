@@ -14,7 +14,6 @@ class LeadApiController extends Controller
 {
     public function store(Request $request)
     {
-        // Duplicate Lead Validation (Module 8)
         if (Lead::where('mobile', $request->mobile)->exists()) {
             return response()->json([
                 'status' => 'error',
@@ -22,7 +21,6 @@ class LeadApiController extends Controller
             ], 400);
         }
 
-        // Basic Validation
         $validated = $request->validate([
             'full_name' => 'required|string|max:255',
             'mobile' => 'required|digits:10',
@@ -38,15 +36,12 @@ class LeadApiController extends Controller
             'consent' => 'required|boolean',
         ]);
 
-        // Credit Score Integration (Module 2) - Mocking a free API
-        // For demonstration, we'll randomize a credit score between 500 and 900
-        // and simulate an API call. In production, this would use Http::get(...)
+        // Credit Score Integration API Call
         $creditScore = $this->fetchCreditScore($validated['mobile']);
 
-        // Evaluate Business Rules Engine (Module 3)
+        // Business Rule Engine Validation
         $breResult = $this->evaluateBRE($validated, $creditScore);
 
-        // Store Lead
         $lead = Lead::create(array_merge($validated, [
             'credit_score' => $creditScore,
             'bre_status' => $breResult['status'],
@@ -65,8 +60,8 @@ class LeadApiController extends Controller
     private function fetchCreditScore($mobile)
     {
         try {
-            // Call the Credit Score API (Mock CIBIL endpoint)
-            // In production, replace this URL with the actual third-party API
+            // Internal call to our Mock Credit Bureau API 
+            // In production, replace this URL with actual third-party API endpoint
             $response = Http::timeout(10)->post(
                 url('/api/credit-score/check'),
                 ['mobile' => $mobile]
@@ -110,7 +105,6 @@ class LeadApiController extends Controller
                 $customerValue = $creditScore;
             } elseif ($field === 'Loan Amount') {
                 $customerValue = $data['loan_amount'];
-                // Handle complex rule value like "80% Property Value"
                 if (stripos($ruleValue, '% Property Value') !== false) {
                     $percentage = (float) str_ireplace('% Property Value', '', $ruleValue);
                     $ruleValue = ($percentage / 100) * $data['property_value'];

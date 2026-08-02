@@ -8,10 +8,6 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    // Mock login - in a real app, use Laravel Auth
-    // We'll skip auth middleware here to focus on the core modules,
-    // but the routes can be protected easily.
-
     public function index()
     {
         $totalLeads = Lead::count();
