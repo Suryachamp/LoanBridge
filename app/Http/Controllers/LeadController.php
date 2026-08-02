@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BusinessRule;
 use Illuminate\Http\Request;
 
 class LeadController extends Controller
 {
     public function index()
     {
-        return view('apply');
+        $rules = BusinessRule::all();
+        return view('apply', compact('rules'));
     }
 }

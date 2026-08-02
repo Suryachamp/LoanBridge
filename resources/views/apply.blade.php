@@ -93,6 +93,38 @@
                 </form>
             </div>
         </div>
+
+        @if(isset($rules) && $rules->count() > 0)
+        <div class="card shadow-sm mt-4">
+            <div class="card-header bg-light">
+                <h5 class="mb-0"><i class="bi bi-shield-check"></i> Current Eligibility Criteria</h5>
+                <small class="text-muted">Your application will be evaluated against the following rules</small>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm table-bordered mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Criteria</th>
+                                <th>Condition</th>
+                                <th>Required Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($rules as $rule)
+                            <tr>
+                                <td><strong>{{ $rule->rule_field }}</strong></td>
+                                <td>{{ $rule->operator }}</td>
+                                <td>{{ $rule->value }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        @endif
+
     </div>
 </div>
 
